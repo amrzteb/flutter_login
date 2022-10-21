@@ -652,7 +652,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 child:
                     _buildConfirmPasswordField(textFieldWidth, messages, auth),
               ),
-              _buildEmailField(textFieldWidth, messages, auth),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child:
+                _buildEmailField(textFieldWidth, messages, auth),
+              ),
               for (var e in auth.termsOfService)
                 TermCheckbox(
                   termOfService: e,
