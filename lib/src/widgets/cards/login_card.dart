@@ -329,18 +329,13 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       loadingController: widget.loadingController,
       interval: _nameTextFieldLoadingAnimationInterval,
       labelText: '邮箱',
-      autofillHints: _isSubmitting
-          ? null
-          : [TextFieldUtils.getAutofillHints(LoginUserType.email)],
-      prefixIcon: TextFieldUtils.getPrefixIcon(LoginUserType.email),
-      keyboardType: TextFieldUtils.getKeyboardType(LoginUserType.email),
+      prefixIcon: const Icon(FontAwesomeIcons.squareEnvelope),
+      keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.done,
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       },
-      validator: widget.userValidator,
-      onSaved: (value) => auth.extraEmail = value!,
-      enabled: !_isSubmitting,
+      onSaved: (value) => auth.extraEmail = value!
     );
   }
 
