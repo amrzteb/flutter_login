@@ -5,6 +5,7 @@ class SignupData {
   final String? name;
   final String? password;
   final String? extraEmail;
+  final String? nickname;
   final List<TermOfServiceResult> termsOfService;
   final Map<String, String>? additionalSignupData;
 
@@ -12,6 +13,7 @@ class SignupData {
       {required this.name,
       required this.password,
       required this.extraEmail,
+      required this.nickname,
       this.additionalSignupData,
       this.termsOfService = const []});
 
@@ -20,6 +22,7 @@ class SignupData {
     this.termsOfService = const [],
   })  : name = null,
         extraEmail = null,
+        nickname = null,
         password = null;
 
   @override

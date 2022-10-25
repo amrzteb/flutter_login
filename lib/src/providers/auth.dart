@@ -115,6 +115,12 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
+  String _nickname = '';
+  String get nickname => _nickname;
+  set nickname(String nickname) {
+    _nickname = nickname;
+    notifyListeners();
+  }
 
   String _password = '';
   String get password => _password;

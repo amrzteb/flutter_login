@@ -132,6 +132,7 @@ class _AdditionalSignUpCardState extends State<_AdditionalSignUpCard>
         error = await auth.onSignup!(SignupData.fromSignupForm(
             name: auth.email,
             password: auth.password,
+            nickname: auth.nickname,
             additionalSignupData: auth.additionalSignupData,
             termsOfService: auth.getTermsOfServiceResults(), extraEmail: auth.extraEmail));
         break;

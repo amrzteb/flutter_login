@@ -48,6 +48,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
   late TextEditingController _passController;
   late TextEditingController _confirmPassController;
   late TextEditingController _extraEmailController;
+  late TextEditingController _nicknameController;
 
   var _isLoading = false;
   var _isSubmitting = false;
@@ -77,6 +78,8 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
     _passController = TextEditingController(text: auth.password);
     _confirmPassController = TextEditingController(text: auth.confirmPassword);
     _extraEmailController = TextEditingController(text: auth.extraEmail);
+
+    _nicknameController = TextEditingController(text: auth.nickname);
 
     widget.loadingController.addStatusListener(handleLoadingAnimationStatus);
 
@@ -178,6 +181,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
         error = await auth.onSignup!(SignupData.fromSignupForm(
             name: auth.email,
             password: auth.password,
+            nickname: auth.nickname,
             termsOfService: auth.getTermsOfServiceResults(), extraEmail: auth.extraEmail));
       }
     }
@@ -330,7 +334,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
           : [TextFieldUtils.getAutofillHints(LoginUserType.email)],
       prefixIcon: TextFieldUtils.getPrefixIcon(LoginUserType.email),
       keyboardType: TextFieldUtils.getKeyboardType(LoginUserType.email),
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       onFieldSubmitted: (value) {
         FocusScope.of(context).requestFocus(_passwordFocusNode);
       },
@@ -339,6 +343,25 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       enabled: !_isSubmitting,
     );
   }
+
+  Widget _buildNicknameField(
+      double width,
+      LoginMessages messages,
+      Auth auth,
+      ) {
+    return AnimatedTextFormField(
+      controller: _nicknameController,
+      width: width,
+      loadingController: widget.loadingController,
+      interval: _nameTextFieldLoadingAnimationInterval,
+      labelText: '姓名',
+      prefixIcon: const Icon(FontAwesomeIcons.addressCard),
+      keyboardType: TextInputType.name,
+      textInputAction: TextInputAction.next,
+      onSaved: (value) => auth.nickname = value!
+    );
+  }
+
 
   Widget _buildPasswordField(double width, LoginMessages messages, Auth auth) {
     return AnimatedPasswordTextFormField(
@@ -379,7 +402,7 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
       inertiaDirection: TextFieldInertiaDirection.right,
       labelText: messages.confirmPasswordHint,
       controller: _confirmPassController,
-      textInputAction: TextInputAction.done,
+      textInputAction: TextInputAction.next,
       focusNode: _confirmPasswordFocusNode,
       onFieldSubmitted: (value) => _submit(),
       validator: auth.isSignup
@@ -651,6 +674,11 @@ class _LoginCardState extends State<_LoginCard> with TickerProviderStateMixin {
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child:
                     _buildConfirmPasswordField(textFieldWidth, messages, auth),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child:
+                _buildNicknameField(textFieldWidth, messages, auth),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
